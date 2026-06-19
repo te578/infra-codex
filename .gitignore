@@ -5,3 +5,6 @@ terraform.exe
 terraform.tfstate
 terraform.tfstate.backup
 *.tfstate.backup
+.terraform.tfstate
+variables.tf
+*.pem
