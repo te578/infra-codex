@@ -9,14 +9,19 @@ Terraformで構築した、AWS上の3層Webアプリケーション基盤です�
 
 ## アーキテクチャ概要
 
+フロントエンド(Web)とバックエンド(API)を分離し、それぞれ適した基盤にデプロイしています。
+
 ```
-Internet
+Client (ブラウザ)
    │
    ▼
-[ALB] ── public-subnet (1a / 1d, マルチAZ)
+Vercel ── Webサーバー (フロントエンド)
+   │  API呼び出し (HTTP)
+   ▼
+[ALB] ── public-subnet (1a / 1d, マルチAZ)  ※このリポジトリの管理範囲
    │
    ▼
-[ECS Fargate] ── ecs-sg (ALBからの8080のみ許可)
+[ECS Fargate] ── APIサーバー (Java/Spring Boot) / ecs-sg (ALBからの8080のみ許可)
    │
    ▼
 [RDS PostgreSQL] ── private-subnet (1a / 1d) / rds-sg (ECSからの5432のみ許可)
@@ -24,6 +29,8 @@ Internet
 [Bastion EC2] ── public-subnet / SSH鍵はTerraformで自動生成しRDSへのアクセス経路を確保
 ```
 
+- フロントエンド: Vercelにホスティングし、静的配信・SSRを担当
+- バックエンド: このTerraformが構築するAWS基盤 (ALB → ECS Fargate上のJava APIサーバー → RDS)
 - VPC: `10.0.0.0/16` を パブリック/プライベート × 2AZ (ap-northeast-1a / 1d) に分割
 - IGWとルートテーブルでパブリック/プライベート経路を分離
 - セキュリティグループは最小権限で段階的に許可 (ALB → ECS → RDS)
@@ -32,6 +39,7 @@ Internet
 
 | レイヤー | 内容 |
 |---|---|
+| フロントエンド | Vercel (Webサーバー) |
 | IaC | Terraform (AWS Provider) |
 | ネットワーク | VPC, Subnet, IGW, Route Table |
 | ロードバランサ | Application Load Balancer + Target Group |
