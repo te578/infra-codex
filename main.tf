@@ -336,7 +336,7 @@ resource "aws_ecs_service" "my_service" {
   launch_type     = "FARGATE"
   health_check_grace_period_seconds = 120
   network_configuration {
-    subnets          = [aws_subnet.public_subnet_d1.id]
+    subnets          = [aws_subnet.public_subnet_d1.id, aws_subnet.public_subnet_a1.id]
     security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
   }
