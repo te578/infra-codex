@@ -3,6 +3,11 @@
 Terraformで構築した、AWS上の3層Webアプリケーション基盤です。
 ネットワークからコンテナ実行環境、CI/CDまでをコードで一貫管理しています。
 
+**本リポジトリは、実際に稼働しているポートフォリオアプリのバックエンド基盤です。**
+
+- 公開サイト: [sun.te578.me](https://sun.te578.me)
+- フロントエンド(Next.js / Vercel): [te578/web](https://github.com/te578/web)
+
 ## アーキテクチャ図
 
 <p align="center">
