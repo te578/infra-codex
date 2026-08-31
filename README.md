@@ -5,8 +5,9 @@ Terraformで構築した、AWS上の3層Webアプリケーション基盤です�
 
 ## アーキテクチャ図
 
-<img src="docs/architecture.png" alt="AWS構成図" align="left" width="600">
-<br clear="left">
+<p align="center">
+  <img src="docs/architecture.png" alt="AWS構成図" width="600">
+</p>
 
 ## アーキテクチャ概要
 
