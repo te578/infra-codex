@@ -53,7 +53,7 @@ Vercel ── Webサーバー (フロントエンド)
 | コンテナ実行基盤 | ECS (Fargate), ECR |
 | データベース | RDS (PostgreSQL 16) |
 | ロギング | CloudWatch Logs |
-| CI/CD | GitHub Actions (Terraform plan/apply, ECR push, ECSデプロイ) |
+| CI/CD | GitHub Actions (このリポジトリ: Terraform plan/apply。ECR push・ECSデプロイはアプリ側リポジトリのワークフローで実施) |
 | State管理 | S3バックエンド (バージョニング有効) |
 
 ## 主な設計ポイント
@@ -69,11 +69,13 @@ Vercel ── Webサーバー (フロントエンド)
 ```
 .
 ├── main.tf          # インフラ全体の定義
-├── variables.tf     # 変数定義 (機密値はtfvarsで注入)
-└── .github/workflows/ci.yml  # Terraform CI/CDパイプライン
+└── .github/workflows/ci.yml  # Terraform CI/CDパイプライン (plan/apply)
 ```
+
+`variables.tf` と `terraform.tfvars` は `.gitignore` で除外しているため、このリポジトリには含まれていません。
+自分で動かす場合は `variables.tf` に `db_password` / `my_ip` の2変数を定義し、`terraform.tfvars` で値を注入してください。
 
 ## 注意事項
 
 - 学習・検証目的の構成のため、HTTPS(ACM/HTTPSリスナー)は未対応です
-- `terraform.tfvars` 等の機密情報はリポジトリに含めていません
+- `variables.tf` / `terraform.tfvars` 等の機密情報・環境依存値はリポジトリに含めていません
